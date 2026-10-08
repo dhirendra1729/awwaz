@@ -1,0 +1,52 @@
+# AWWAZ (SAAKSHI) Per-Codec Calibration & Channel Laundering Parameters
+
+codecs:
+  g711_ulaw:
+    name: "G.711 mu-law (PSTN Landline)"
+    sample_rate_hz: 8000
+    bitrate_kbps: 64.0
+    bandpass_hz: [300, 3400]
+    eer_baseline_shift: 0.082
+    temperature_adjustment: 1.15
+    phase_harmonic_loss_factor: 0.65
+
+  amr_nb:
+    name: "AMR-NB (GSM 2G/3G Cellular)"
+    sample_rate_hz: 8000
+    bitrate_kbps: 12.2
+    bandpass_hz: [200, 3400]
+    eer_baseline_shift: 0.124
+    temperature_adjustment: 1.30
+    phase_harmonic_loss_factor: 0.85
+
+  amr_wb:
+    name: "AMR-WB (VoLTE / HD Voice)"
+    sample_rate_hz: 16000
+    bitrate_kbps: 23.85
+    bandpass_hz: [50, 7000]
+    eer_baseline_shift: 0.041
+    temperature_adjustment: 1.08
+    phase_harmonic_loss_factor: 0.40
+
+  opus_narrow:
+    name: "Opus Low-Bitrate (VoIP / WhatsApp audio)"
+    sample_rate_hz: 16000
+    bitrate_kbps: 12.0
+    bandpass_hz: [50, 6000]
+    eer_baseline_shift: 0.058
+    temperature_adjustment: 1.12
+    phase_harmonic_loss_factor: 0.48
+
+  opus_wide:
+    name: "Opus Standard (WebRTC High-Fi)"
+    sample_rate_hz: 16000
+    bitrate_kbps: 32.0
+    bandpass_hz: [20, 8000]
+    eer_baseline_shift: 0.015
+    temperature_adjustment: 1.00
+    phase_harmonic_loss_factor: 0.10
+
+speech_enhancement_resilience:
+  rnnoise_ns_tolerance: true
+  aec_smoothing_compensation: 0.18
+  phoneme_guided_consistency_weight: 0.25

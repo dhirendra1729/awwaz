@@ -1,0 +1,63 @@
+# AWWAZ (SAAKSHI) Detector Ensemble Configuration
+
+audio:
+  sample_rate_hz: 16000
+  channels: 1
+  pcm_format: "int16"
+  chunk_duration_ms: 20
+  chunk_samples: 320
+
+vad:
+  engine: "silero_vad"
+  speech_threshold: 0.5
+  min_speech_duration_ms: 100
+  min_silence_duration_ms: 200
+
+windows:
+  fast_tier:
+    window_sec: 1.0
+    samples: 16000
+    stride_sec: 0.25
+    target_latency_ms: 25.0
+  confirm_tier:
+    window_sec: 4.0
+    samples: 64000
+    stride_sec: 1.0
+    target_latency_ms: 60.0
+
+models:
+  sincnet:
+    enabled: true
+    out_channels: 70
+    kernel_size: 251
+    sample_rate: 16000
+    stride: 1
+    min_low_hz: 30
+    min_band_hz: 50
+    weight_in_ensemble: 0.35
+
+  wavlm_backbone:
+    enabled: true
+    model_name: "wavlm_large"
+    transformer_layers: 24
+    embedding_dim: 1024
+    layer_weight_strategy: "learnable_softmax"
+    freeze_backbone: true
+    weight_in_ensemble: 0.65
+
+  tcm:
+    channels: 64
+    heads: 4
+    reduction_ratio: 4
+    dropout: 0.1
+
+  spaarsist_graph:
+    train_pruning_ratio_ktr: 0.80
+    infer_pruning_ratio_kinf: 0.50
+    scoring_metric: "l2_norm"
+
+calibration:
+  temperature: 1.25
+  prior_shift: 0.0
+  operating_threshold: 0.80
+  uncertainty_quantile: 0.95

@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "awwaz"
+version = "0.1.0"
+description = "AWWAZ (SAAKSHI): The Zero-Trust Voice Firewall for Financial Systems & Real-Time Voice Cloning Defense"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "AWWAZ SAAKSHI Team", email = "team@awwaz.ai" }
+]
+keywords = [
+    "deepfake-detection",
+    "voice-cloning",
+    "zero-trust",
+    "financial-fraud",
+    "upi-security",
+    "biometrics",
+    "privacy-preserving",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy>=1.24.0",
+    "pyyaml>=6.0",
+    "cryptography>=41.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "websockets>=11.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

@@ -1,0 +1,69 @@
+# AWWAZ (SAAKSHI) Graduated Action Ladder Policy & Safety Invariants
+
+thresholds:
+  high_impact_amount_inr: 5000.0
+  cognitive_friction_amount_inr: 2000.0
+  cooling_off_ttl_seconds: 1800 # 30 minutes
+  out_of_band_response_timeout_seconds: 60
+
+bayesian_prior:
+  base_prevalence_pi: 0.00001 # 1 in 100,000 calls
+  gated_prevalence_pi_prime: 0.01 # 1% when multi-family context gates fire
+  tpr_default: 0.80
+  fpr_default: 0.01
+
+levels:
+  0:
+    name: "PASS_THROUGH"
+    description: "All signals clean. Instant authorization with zero delay."
+    reversible: true
+    requires_user_action: false
+    can_be_triggered_by_single_signal: false
+
+  1:
+    name: "SILENT_OBSERVE_LOG"
+    description: "Single weak/strong signal observed. Telemetry logged; zero user disruption."
+    reversible: true
+    requires_user_action: false
+    can_be_triggered_by_single_signal: true
+
+  2:
+    name: "COGNITIVE_FRICTION_NUDGE"
+    description: ">=2 independent families fired for low-impact amounts (<₹2,000). Calm advisory banner."
+    reversible: true
+    requires_user_action: false
+    can_be_triggered_by_single_signal: false
+
+  3:
+    name: "OUT_OF_BAND_STEP_UP_CHALLENGE"
+    description: ">=2 families fired + high impact transfer (>₹5,000). Requires V1 (FIDO2) or V2 (Family Beacon)."
+    reversible: true
+    requires_user_action: true
+    can_be_triggered_by_single_signal: false
+
+  4:
+    name: "REVERSIBLE_COOLING_OFF"
+    description: "Out-of-band verification unacknowledged/timed out. 30-minute hold with release link."
+    reversible: true
+    requires_user_action: true
+    can_be_triggered_by_single_signal: false
+
+  5:
+    name: "TIER_2_SOC_HUMAN_REVIEW"
+    description: "Verification explicitly denied by user or family member. Prioritized human analyst queue."
+    reversible: true
+    requires_user_action: false
+    can_be_triggered_by_single_signal: false
+
+  6:
+    name: "DECLINE_AND_FREEZE"
+    description: "Hard transaction decline and account protection. Triggered ONLY by human decision or confirmed fraud rule."
+    reversible: false
+    requires_user_action: false
+    can_be_triggered_by_single_signal: false
+
+privacy:
+  zero_raw_audio_on_disk: true
+  ram_buffer_max_duration_seconds: 4.5
+  semantic_stream_discard_ms: 500
+  feature_vector_deletion_on_session_end: true
